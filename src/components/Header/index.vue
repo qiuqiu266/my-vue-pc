@@ -37,7 +37,15 @@
             type="text"
             id="autocomplete"
             class="input-error input-xxlarge"
+            v-model="searchText"
           />
+          <!-- 去掉type="button" 时，点击搜索，路径出现问题，(原因是提交了表单)
+               1.button 按钮如果没有type 那么在表单中 默认type就是submit，
+                 此时就会提交表单，事件就是绑定在form表单上
+                 @submit.prevent = "search"
+              2. 不用form 表单
+                 @click="search"
+           -->
           <button
             class="sui-btn btn-xlarge btn-dander"
             type="button"
@@ -53,10 +61,39 @@
 <script>
 export default {
   name: "Header",
-  //
+  data() {
+    return {
+      // input输入的内容
+      searchText: "",
+    };
+  },
+  // 方法
   methods: {
+    // 搜索功能回调函数
+    // search() {
+    //   // 读取输入框内容
+    //   const { searchText } = this;
+    //   // params 传参
+    //   const params = searchText ? `/${searchText}` : "";
+    //   // 生成要跳转的路径
+    //   const location = "/search" + params;
+    //   // 路由跳转
+    //   this.$router.push(location);
+    // },
     search() {
-      this.$router.push("/search");
+      // 获取表单输入的 内容
+      const { searchText } = this;
+      // 编程式导航
+      const location = {
+        name: "search",
+      };
+      // 判断
+      if (searchText) {
+        location.params = {
+          searchText,
+        };
+      }
+      this.$router.push(location);
     },
   },
 };
@@ -69,7 +106,9 @@ export default {
   overflow: hidden;
   .login-list {
     float: left;
-
+    span {
+      margin-right: 4px;
+    }
     p {
       float: left;
       margin-right: 10px;
@@ -80,9 +119,6 @@ export default {
         margin-left: 5px;
       }
     }
-    span {
-      margin-right: 4px;
-    }
   }
 
   .type-list {
@@ -90,13 +126,15 @@ export default {
 
     a {
       padding: 0 10px;
+      // text-decoration: none;
 
       & + a {
-        border-left: 1px solid #eaeaea;
+        border-left: 1px solid #b3aeae;
       }
     }
   }
 }
+
 .header {
   & > .header-top {
     background-color: #eaeaea;
@@ -104,50 +142,54 @@ export default {
     line-height: 30px;
   }
 
-  // 头部第二行
   & > .header-buttom {
-    overflow: hidden;
-    // margin: 0 auto;
     width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
 
-    .logo {
-      img {
-        width: 175px;
-        margin: 25px 45px;
-      }
-    }
-  }
+    .logo-area {
+      float: left;
 
-  .search-area {
-    float: right;
-    margin-top: 35px;
-
-    .search-form {
-      overflow: hidden;
-
-      input {
-        float: left;
-        box-sizing: border-box;
-        width: 490px;
-        height: 32px;
-        padding: 0px 4px;
-        border: 2px solid #ea4a36;
-
-        &:focus {
-          outline: none;
+      .logo {
+        img {
+          width: 175px;
+          margin: 25px 45px;
         }
       }
-      button {
-        height: 32px;
-        width: 68px;
-        border: none;
-         background-color: #ea4a36;
-        color: #fff;
-        float: left;
-        cursor: pointer;
+    }
 
-        &:focus {
-          outline: none;
+    .search-area {
+      float: right;
+      margin-top: 35px;
+
+      .search-form {
+        overflow: hidden;
+
+        input {
+          box-sizing: border-box;
+          width: 490px;
+          height: 32px;
+          padding: 0px 4px;
+          border: 2px solid #ea4a36;
+          float: left;
+
+          &:focus {
+            outline: none;
+          }
+        }
+
+        button {
+          height: 32px;
+          width: 68px;
+          background-color: #ea4a36;
+          border: none;
+          color: #fff;
+          float: left;
+          cursor: pointer;
+
+          &:focus {
+            outline: none;
+          }
         }
       }
     }

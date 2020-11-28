@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <Header />
-    <Footer />
+    <!-- 加载显示当前路由组件 -->
+    <router-view></router-view>
+    <Footer v-if="$route.path !== '/login' && $route.path !== '/register'" />
   </div>
 </template>
 <script>
@@ -17,5 +19,4 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-
 </style>

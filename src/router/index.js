@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Vue from "vue";
 import VueRouter from "vue-router";
 // 引入路由组件
@@ -16,7 +17,9 @@ export default new VueRouter({
       component: Home,
     },
     {
-      path: "/search",
+      name:"search",
+      // ？ 代表params 参数是可选的 (可以有值或没值)
+      path: "/search/:searchText?",
       component: Search,
     },
     {
