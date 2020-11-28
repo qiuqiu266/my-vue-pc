@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ",",
+    "paths": {
+      "@views/*": ["./src/visews/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@comps/*": ["./src/components/*"],
+      "@api/*": ["./src/api/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@store/*": ["./src/store/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}

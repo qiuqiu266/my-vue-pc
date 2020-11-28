@@ -17,7 +17,7 @@ export default new VueRouter({
       component: Home,
     },
     {
-      name:"search",
+      name: "search",
       // ？ 代表params 参数是可选的 (可以有值或没值)
       path: "/search/:searchText?",
       component: Search,
@@ -25,10 +25,16 @@ export default new VueRouter({
     {
       path: "/login",
       component: Login,
+      meta: {
+        isFooterHide: true,
+      },
     },
     {
       path: "/register",
       component: Register,
+      meta: {
+        isFooterHide: true,
+      },
     },
   ],
 });
