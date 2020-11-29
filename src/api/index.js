@@ -1,9 +1,10 @@
 // 引入 请求，响应拦截器
 import request from "@utils/request";
 
-// 封装一个发送请求的函数
+// 封装一个发送请求的函数(接口)
 // 定义一个方法 并且暴露出去
-// 登录的接口     参数 登录需要的信息 手机号 密码
+// 登录的接口    
+//      参数 登录需要的信息 手机号 密码
 export const reqLogin = (phone, password) => {
   // 将request的返回值返回出去
   // 外面可以接受到request返回值(Promise对象)，通过这个Promise对象可以判断请求成功还是失败
@@ -18,3 +19,11 @@ export const reqLogin = (phone, password) => {
     }
   });
 };
+
+// 侧边导航分类接口
+export const reqCategoryList = () => {
+  return request({
+    method:"GET",
+    url:"/product/getBaseCategoryList",   
+  })
+}
