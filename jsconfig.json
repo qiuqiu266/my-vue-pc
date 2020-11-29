@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ",",
     "paths": {
-      "@views/*": ["./src/visews/*"],
+      "@views/*": ["./src/views/*"],
       "@assets/*": ["./src/assets/*"],
       "@comps/*": ["./src/components/*"],
       "@api/*": ["./src/api/*"],
