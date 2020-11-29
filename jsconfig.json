@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "baseUrl": ",",
+    "baseUrl": ".",
     "paths": {
       "@views/*": ["./src/views/*"],
       "@assets/*": ["./src/assets/*"],
       "@comps/*": ["./src/components/*"],
-      "@api/*": ["./src/api/*"],
+      "@store/*": ["./src/store/*"],
       "@utils/*": ["./src/utils/*"],
-      "@store/*": ["./src/store/*"]
+      "@api/*": ["./src/api/*"]
     }
   },
   "exclude": ["node_modules"]
