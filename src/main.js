@@ -8,7 +8,9 @@ import router from "./router";
 import "./style/reset.css";
 Vue.config.productionTip = false;
 
-new Vue({
+// console.log(router);// __proto__有个push (实例上)
+
+new Vue({ 
   render: (h) => h(App),
   router,
 }).$mount("#app");

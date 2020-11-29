@@ -7,8 +7,33 @@ import Search from "../visews/Search";
 import Login from "../visews/Login/";
 import Register from "../visews/Register/";
 
+// 重写push和replace方案：为了编程式导航重复点击路径时不报错
+/*VueRouter.prototype.push = function(location) {
+  // 这样会造成location 重复被调用
+  VueRouter.prototype.push.call(this,location)
+}*/
+const push = VueRouter.prototype.push;
+const replace = VueRouter.prototype.replace;
+VueRouter.prototype.push = function(location, onComplete, onAbort) {
+  // 如果用户想处理失败，就处理 onComplete成功 onAbort失败
+  if (onComplete && onAbort) {
+    return push.call(this, location, onComplete, onAbort);
+  }
+  // 如果用户不处理失败，---------------------就给默认值，空函数
+  return push.call(this, location, onComplete, () => {});
+};
+VueRouter.prototype.replace = function(location, onComplete, onAbort) {
+  // 如果用户想处理失败，就处理 onComplete成功 onAbort失败
+  if (onComplete && onAbort) {
+    return replace.call(this, location, onComplete, onAbort);
+  }
+  // 如果用户不处理失败，---------------------就给默认值，空函数
+  return replace.call(this, location, onComplete, () => {});
+};
+
 // 安装使用插件
 Vue.use(VueRouter);
+// console.log(VueRouter.prototype); // 原型上的push 要在安装使用VueRouter插件之前重写push
 
 export default new VueRouter({
   routes: [
@@ -17,6 +42,7 @@ export default new VueRouter({
       component: Home,
     },
     {
+      // name:"" 命名路由
       name: "search",
       // ？ 代表params 参数是可选的 (可以有值或没值)
       path: "/search/:searchText?",
@@ -25,6 +51,8 @@ export default new VueRouter({
     {
       path: "/login",
       component: Login,
+      // 当组件加载显示时，meat的参数会传到$route中
+      // 当组件不加载显示时，meat的参数就不会传
       meta: {
         isFooterHide: true,
       },

@@ -32,27 +32,36 @@
         </router-link>
       </h1>
       <div class="search-area">
-        <form action="###" class="search-form">
+        <!-- <form action="###" class="search-form">
           <input
             type="text"
             id="autocomplete"
             class="input-error input-xxlarge"
             v-model="searchText"
-          />
-          <!-- 去掉type="button" 时，点击搜索，路径出现问题，(原因是提交了表单)
+          /> -->
+        <!-- <button
+            class="sui-btn btn-xlarge btn-dander"
+            type="button"
+            @click="search"
+          >
+            搜索
+          </button> -->
+
+        <!-- 去掉type="button" 时，点击搜索，路径出现问题，(原因是提交了表单)
                1.button 按钮如果没有type 那么在表单中 默认type就是submit，
                  此时就会提交表单，事件就是绑定在form表单上
                  @submit.prevent = "search"
               2. 不用form 表单
                  @click="search"
            -->
-          <button
-            class="sui-btn btn-xlarge btn-dander"
-            type="button"
-            @click="search"
-          >
-            搜索
-          </button>
+        <form class="search-form" @submit.prevent="search">
+          <input
+            type="text"
+            id="autocomplete"
+            class="input-error input-xxlarge"
+            v-model="searchText"
+          />
+          <button class="sui-btn btn-xlarge btn-dander">搜索</button>
         </form>
       </div>
     </div>
@@ -69,31 +78,87 @@ export default {
   },
   // 方法
   methods: {
+    /**
+     $router.push(location)
+     location 可以是字符串 path:/xxx?key=value
+     location 可以是对象
+     {
+       path:路由路径
+       query:{} 查询字符串参数
+     }
+     {
+       name:"命名路由名称",
+       parmas:{} params参数,
+       query:{} 查询字符串参数 如：name:"jack"
+     }
+     命名路由 params可选
+
+     问题：编程式导航 重复点击跳转同一个路径会报错:
+     Uncaught (in promise) NavigationDuplicated: Avoided redundant navigation to current location: "/search"
+     解决方案在：
+      
+     */
     // 搜索功能回调函数
-    // search() {
-    //   // 读取输入框内容
-    //   const { searchText } = this;
-    //   // params 传参
-    //   const params = searchText ? `/${searchText}` : "";
-    //   // 生成要跳转的路径
-    //   const location = "/search" + params;
-    //   // 路由跳转
-    //   this.$router.push(location);
-    // },
+    // 第一种方式：字符串处理可选参数处理方式
+    /*search() {
+      // 读取输入框内容
+      const { searchText } = this;
+      // params 传参
+      const params = searchText ? `/${searchText}` : "";
+      // 生成要跳转的路径
+      const location = "/search" + params;
+      // 路由跳转
+      this.$router.push(location);
+    },*/
+
+    // 第二种方式：命名式路由对象的方式 参数可选处理方式
     search() {
-      // 获取表单输入的 内容
+      // 获取表单输入要搜索的 内容
       const { searchText } = this;
       // 编程式导航
       const location = {
-        name: "search",
+        // path:"/Search",
+        // params:{
+        //   searchText:searchText
+        // },
+        // query:{
+        //   name:"jack"
+        // },
+        name: "search", // 使用命名路由
       };
-      // 判断
+      // 命名式路由对象的方式 params参数可选
+      // 需要判断是否有值 有就添加
       if (searchText) {
         location.params = {
           searchText,
         };
       }
-      this.$router.push(location);
+      // 编程式导航，将来要做搜索功能，要发送请求
+      this.$router.push(location,
+      // 1.回调的方式处理 重复点击search跳转报错
+      /*(res) => {
+        console.log("成功",res);
+      },
+      (err) =>{
+        console.log("失败",err);
+      } */
+
+      // 3.此方式也可以解决报错 没有任何返回结果 但是如果将来还需要用到编程式导航 
+      // 也需要这样才能解决，所以需要有一个可以复用的方法来解决此问题(重写push方案-->router中)
+      /*() => {
+        // console.log("成功",res);
+      },
+      () =>{}*/
+      );
+
+      // 2.promise 方式处理 
+      /* .then((res) => {
+           console.log("成功", res);
+         })
+         .catch((err) => {
+           console.log("失败",err);
+         });*/
+        //  
     },
   },
 };
