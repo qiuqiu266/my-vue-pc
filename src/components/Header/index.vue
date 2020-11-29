@@ -134,31 +134,34 @@ export default {
         };
       }
       // 编程式导航，将来要做搜索功能，要发送请求
-      this.$router.push(location,
-      // 1.回调的方式处理 重复点击search跳转报错
-      /*(res) => {
+      this.$router.push(
+        location
+        // 1.回调的方式处理 重复点击search跳转报错
+        /*(res) => {
         console.log("成功",res);
       },
       (err) =>{
         console.log("失败",err);
       } */
 
-      // 3.此方式也可以解决报错 没有任何返回结果 但是如果将来还需要用到编程式导航 
-      // 也需要这样才能解决，所以需要有一个可以复用的方法来解决此问题(重写push方案-->router中)
-      /*() => {
+        // 3.此方式也可以解决报错 没有任何返回结果 但是如果将来还需要用到编程式导航
+        // 也需要这样才能解决，所以需要有一个可以复用的方法来解决此问题(重写push方案-->router中)
+        /*() => {
         // console.log("成功",res);
       },
       () =>{}*/
       );
+      // 让输入框内容为空
+      this.searchText = "";
 
-      // 2.promise 方式处理 
+      // 2.promise 方式处理
       /* .then((res) => {
            console.log("成功", res);
          })
          .catch((err) => {
            console.log("失败",err);
          });*/
-        //  
+      //
     },
   },
 };
