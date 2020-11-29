@@ -17,10 +17,13 @@ module.exports = {
   // 改了配置，一定要重启才能生效
   devServer: {
     proxy: {
+      // 请求是以api开头的
       "/api": {
+        // 最终目标服务器
         target: "http://182.92.128.115",
         changeOrigin: true, // 允许跨域
-        // pathRewrite: { // 重写路径
+        // 重写路径，将来可能会有不是/api开头，此时接口都是要api，所以不能重写
+        // pathRewrite: {
         //   "^/api": "",
         // },
       },
