@@ -176,6 +176,10 @@ export default {
       //     [`category${categorytype}Id`]: categoryid,
       //   },
       // });
+
+      // 隐藏分类列表
+      this.isSearchShow = false;
+
       const location = {
         name: "search",
         query: {
@@ -183,6 +187,13 @@ export default {
           [`category${categorytype}Id`]: categoryid,
         },
       };
+      const {searchText} = this.$route.params
+      // 判断是否有params参数 有就加上
+      if(searchText){
+        location.params={
+          searchText
+        }
+      }
       this.$router.push(location);
     },
   },
