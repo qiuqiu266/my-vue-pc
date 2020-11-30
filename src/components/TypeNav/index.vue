@@ -22,7 +22,25 @@
           >
             <h3>
               <!-- 一级分类 -->
-              <a href="">{{ category.categoryName }}</a>
+              <!-- <a href="">{{ category.categoryName }}</a> -->
+              <!-- 第一种方式 -->
+              <!-- <router-link
+                :to="`/search?categoryName=${category.categoryName}&category1Id=${category.categoryId}`"
+                >{{ category.categoryName }}</router-link
+              > -->
+              <!-- 第二种方式 -->
+              <a
+                @click.prevent="
+                  $router.push({
+                    name: 'search',
+                    query: {
+                      categoryName: category.categoryName,
+                      categoryId: category.categoryId,
+                    },
+                  })
+                "
+                >{{ category.categoryName }}</a
+              >
             </h3>
             <div class="item-list clearfix">
               <div class="subitem">
@@ -33,7 +51,24 @@
                 >
                   <dt>
                     <!-- 二级分类 -->
-                    <a href="">{{ child.categoryName }}</a>
+                    <!-- <a href="">{{ child.categoryName }}</a> -->
+                    <!-- <router-link
+                      :to="`/search?categoryName=${child.categoryName}&category2Id=${child.categoryId}`"
+                      >{{ child.categoryName }}</router-link
+                    > -->
+                    <!--  -->
+                    <a
+                      @click.prevent="
+                        $router.push({
+                          name: 'search',
+                          query: {
+                            categoryName: child.categoryName,
+                            categoryId: child.categoryId,
+                          },
+                        })
+                      "
+                      >{{ child.categoryName }}</a
+                    >
                   </dt>
                   <dd>
                     <em
@@ -41,7 +76,23 @@
                       :key="grandChild.categoryId"
                     >
                       <!-- 三级分类 -->
-                      <a href="">{{ grandChild.categoryName }}</a>
+                      <!-- <a href="">{{ grandChild.categoryName }}</a> -->
+                      <!-- <router-link
+                        :to="`/search?categoryName=${grandChild.categoryName}&category3Id=${grandChild.categoryId}`"
+                        >{{ grandChild.categoryName }}</router-link
+                      > -->
+                      <a
+                        @click.prevent="
+                          $router.push({
+                            name: 'search',
+                            query: {
+                              categoryName: grandChild.categoryName,
+                              categoryId: grandChild.categoryId,
+                            },
+                          })
+                        "
+                        >{{ grandChild.categoryName }}</a
+                      >
                     </em>
                   </dd>
                 </dl>
