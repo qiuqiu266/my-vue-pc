@@ -1,4 +1,6 @@
-[{
-  "id|4": 1,
-  "imgUrl": "@image('720x455','@color')"
-}]
+[
+  {
+    "id|+1": 0,
+    "imgUrl": "@image('720x455','@color')"
+  }
+]
