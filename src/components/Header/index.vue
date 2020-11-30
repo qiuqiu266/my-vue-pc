@@ -194,10 +194,11 @@ export default {
 
     a {
       padding: 0 10px;
-      // text-decoration: none;
+      text-decoration: none;
 
       & + a {
         border-left: 1px solid #b3aeae;
+        //  text-decoration: none;
       }
     }
   }
