@@ -55,18 +55,37 @@
 </template>
 
 <script>
-import { reqCategoryList } from "@api";
+// import { reqCategoryList } from "@api/home";
+import { mapState, mapActions } from "vuex";
 export default {
   name: "TypeNav",
   // 初始化响应数据
-  data() {
-    return {
-      categoryList: [],
-    };
+  // data() {
+  //   return {
+  //     categoryList: [],
+  //   };
+  // },
+  // 计算属性
+  computed: {
+    // 将初始化状态数据映射进来
+    // 当使用Vuex 模块化时，此方式就不行了
+    // ...mapState(["categoryList"]),
+
+    ...mapState({
+      //使用对象的方式 对象中的数据，就会传递给组件
+      // categoryList是组件能 接受到所有数据
+      // 它的值是一个函数，内部会调用得到值，调用时会将所有数据传递过去，就是state
+      categoryList: (state) => state.home.categoryList,
+    }),
   },
-  async mounted() {
-    const result = await reqCategoryList();
-    this.categoryList = result.slice(0, 15);
+  // 方法
+  methods: {
+    // 将获取三级分类信息列表的方法映射进来
+    ...mapActions(["getCategoryList"]),
+  },
+  mounted() {
+    // 调用Vuexactions函数
+    this.getCategoryList();
   },
 };
 </script>

@@ -7,7 +7,7 @@
 
 <script>
 // 引入接口
-import { reqLogin } from "@api";
+import { reqLogin } from "@api/user";
 export default {
   name: "Login",
   methods: {
