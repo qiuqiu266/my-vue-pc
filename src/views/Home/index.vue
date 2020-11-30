@@ -19,6 +19,8 @@
 </template>
 
 <script>
+//
+import { mapState, mapActions } from "vuex";
 import Brand from "./Brand";
 import Floor from "./Floor";
 import Like from "./Like";
@@ -36,6 +38,20 @@ export default {
     Rank,
     TodayRecommend,
     TypeNav,
+  },
+  // 计算属性
+  computed: {
+    ...mapState({
+      floorList: (state) => state.home.floorList,
+    }),
+  },
+  // 方法
+  methods: {
+    ...mapActions(["getfloorList"]),
+  },
+  // 生命周期函数
+  mounted() {
+    this.getfloorList();
   },
 };
 </script>

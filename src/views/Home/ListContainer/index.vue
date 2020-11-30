@@ -101,8 +101,24 @@
 </template>
 
 <script>
+// 
+import {mapState,mapActions} from 'vuex'
   export default {
     name: 'ListContainer',
+    // 计算属性
+    computed:{
+      ...mapState({
+        bannerList:(state) => state.home.bannerList
+      })
+    },
+    // 方法
+    methods:{
+      ...mapActions(["getbannerList"])
+    },
+    // 生命周期
+    mounted(){
+      this.getbannerList()
+    }
   }
 </script>
 

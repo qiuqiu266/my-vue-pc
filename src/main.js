@@ -8,7 +8,9 @@ import router from "./router";
 import store from "@store";
 // 引入公共样式
 import "./style/reset.css";
-
+// 引入mockServer 为了加载里面的代码
+// 一旦加载就会启动mock服务器，就会拦截相应的请求
+import './mock/mockServer'
 import "./plugins/element.js";
 Vue.config.productionTip = false;
 

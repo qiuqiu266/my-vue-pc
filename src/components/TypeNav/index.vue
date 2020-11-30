@@ -1,12 +1,8 @@
 <template>
   <!-- 商品分类导航 -->
   <div class="type-nav">
-    <div
-      class="container"
-      @mouseenter="isSearchShow = true"
-      @mouseleave="isSearchShow = false"
-    >
-      <h2 class="all">全部商品分类</h2>
+    <div class="container" @mouseleave="isSearchShow = false">
+      <h2 class="all" @mouseenter="isSearchShow = true">全部商品分类</h2>
       <nav class="nav">
         <a href="###">服装城</a>
         <a href="###">美妆馆</a>
@@ -187,17 +183,20 @@ export default {
           [`category${categorytype}Id`]: categoryid,
         },
       };
-      const {searchText} = this.$route.params
+      const { searchText } = this.$route.params;
       // 判断是否有params参数 有就加上
-      if(searchText){
-        location.params={
-          searchText
-        }
+      if (searchText) {
+        location.params = {
+          searchText,
+        };
       }
       this.$router.push(location);
     },
   },
   mounted() {
+    // 为了不重复发送一样的请求，(减少发送次数)
+    // 请求之前判断vuex 有没有数据，有就不发了 没有就发送请求
+    if (this.categoryList.length) return;
     // 调用Vuexactions函数
     this.getCategoryList();
   },
