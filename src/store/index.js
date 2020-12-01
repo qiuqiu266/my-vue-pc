@@ -4,14 +4,14 @@ import modules from "./modules";
 // 声明使用Vuex插件
 Vue.use(Vuex);
 const state = {};
-const getter = {};
+const getters = {};
 const actions = {};
 const mutations = {};
 
 // 暴露出去
 export default new Vuex.Store({
   state,
-  getter,
+  getters,
   actions,
   mutations,
   modules, // 其他vuex模块的数据汇总

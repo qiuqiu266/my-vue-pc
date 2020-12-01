@@ -9,7 +9,7 @@ export default {
     floorList: [], // 首页楼层数据
   },
   // 存储只读计算属性数据的函数对象
-  getter: {},
+  getters: {},
   // 间接修改数据 (发送请求)
   actions: {
     // 获取首页三级分类信息列表
