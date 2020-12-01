@@ -1,7 +1,11 @@
 <template>
-  <div class="swiper-container">
+  <div class="swiper-container" ref="swiper">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" v-for="carousel in carouselList" :key="carousel.id">
+      <div
+        class="swiper-slide"
+        v-for="carousel in carouselList"
+        :key="carousel.id"
+      >
         <img :src="carousel.imgUrl" />
       </div>
     </div>
@@ -28,39 +32,68 @@ export default {
       required: true,
     },
   },
+  // 监视
   watch: {
+    // 监视carouselList 是否有数据(渲染出来)
     carouselList() {
+      /*
+        carouselList数组 最终数据--数据发生变化才会触发
+        轮播图实现需要满足
+        轮播图DOM元素要渲染完成-->轮播图数据
+        this.$nextTick为了确保轮播图数据已经渲染成DOM元素
+      */
+      // 判断--->确保swiper不能new 多次
+      if (this.swiper) return;
       this.$nextTick(() => {
-        // 判断是否有数据，确保swiper 不会new多次
-        if(this.swiper) return
-        // new Swiper() 第一个参数为 轮播图的容器，第二个参数 式一个对象
-        this.swiper = new Swiper(".swiper-container", {
-          loop: true, // 循环模式选项
-          // // 自动播放时间
-          // autoplay: true,
-          // // 播放速度
-          // speed: 1000,
-          // 自动播放
-          autoplay: {
-            // 自动播放速度(间隔时间)
-            delay: 2000,
-            // 当用户点击下一页时，仍会开启自动轮播
-            disableOnInteraction: false,
-          },
-          // 分页器
-          pagination: {
-            el: ".swiper-pagination",
-          },
-          navigation: {
-            // swiper-button-prev
-            // swiper-button-next
-            prevEl: ".swiper-button-prev",
-            nextEl: ".swiper-button-next",
-          },
-          autoplayDisableOnInteraction: false,
-        });
+        this.initSwiper();
       });
     },
+  },
+  methods: {
+    initSwiper() {
+      // new Swiper() 第一个参数为 轮播图的容器，第二个参数 式一个对象
+      //  this.$refs.swiper 取代.swiper-container
+      // 使用this.$refs.swiper 才能确保轮播图组件使用的是自己的swiper
+      this.swiper = new Swiper(this.$refs.swiper, {
+        loop: true, // 循环模式选项
+        // // 自动播放时间
+        // autoplay: true,
+        // // 播放速度
+        // speed: 1000,
+        // 自动播放
+        autoplay: {
+          // 自动播放速度(间隔时间)
+          delay: 2000,
+          // 当用户点击下一页时，仍会开启自动轮播
+          disableOnInteraction: false,
+        },
+        // 分页器
+        pagination: {
+          el: ".swiper-pagination",
+        },
+        navigation: {
+          // swiper-button-prev
+          // swiper-button-next
+          prevEl: ".swiper-button-prev",
+          nextEl: ".swiper-button-next",
+        },
+        autoplayDisableOnInteraction: false,
+      });
+    },
+  },
+  // 生命周期
+  mounted() {
+    /*
+     要有轮播图数据 且 轮播图DOM元素要渲染完成 才能new swiper
+
+      ListContainer 
+      一上来是没有数据的 ---> 触发watch
+      floorList
+      一上来有数据---触发mounted
+    */
+    // 判断carouselList是否有数据
+    if (!this.carouselList.length) return;
+    this.initSwiper();
   },
 };
 </script>
