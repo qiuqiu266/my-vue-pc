@@ -164,6 +164,14 @@ export default {
       //
     },
   },
+  // 生命周期函数
+  mounted() {
+    // 绑定自定义事件
+    this.$bus.$on("clearKeyword", () => {
+      // 清空searchText
+      this.searchText = "";
+    });
+  },
 };
 </script>
 

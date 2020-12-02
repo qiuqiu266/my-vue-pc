@@ -62,3 +62,7 @@
 - 拆分组件
 
 1. api--封装接口--->store--定义获取数据方式(vuex) 定义一个初始化状态数据--actions 中定义一个发送请求的函数，第一个参数{commit}(用来触发 mutations)，第二个参数 data={} 将来需要传入的参数数据都在 data 对象中-->定义 mutations() 第一个参数所有数据 state,第二个参数 需要获取的数据--->组件中引入 映射到组件 获取到数据渲染
+
+
+###### search组件删除关键字
+绑定点击事件---清空options---min.js定义全局事件总线--header组件mounted中绑定自定义事件--search组件清空header组件的keyword---
