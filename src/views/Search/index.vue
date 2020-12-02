@@ -12,9 +12,6 @@
           </ul>
           <ul class="fl sui-tag">
             <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
           </ul>
         </div>
 
@@ -59,7 +56,7 @@
                   <div class="price">
                     <strong>
                       <em>¥</em>
-                      <i>{{goods.price}}</i>
+                      <i>{{ goods.price }}</i>
                     </strong>
                   </div>
                   <div class="attr">
@@ -67,7 +64,7 @@
                       target="_blank"
                       href="item.html"
                       title="促销信息，下单即赠送三个月CIBN视频会员卡！【小米电视新品4A 58 火爆预约中】"
-                      >{{goods.title}}</a
+                      >{{ goods.title }}</a
                     >
                   </div>
                   <div class="commit">
@@ -127,18 +124,75 @@
 <script>
 import TypeNav from "@comps/TypeNav";
 import SearchSelector from "./SearchSelector/SearchSelector";
-import {mapGetters,mapActions} from 'vuex'
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "Search",
+  data() {
+    return {
+      options: {
+        category1Id: "", // 一级分类
+        category2Id: "", // 二级分类
+        category3Id: "", // 三级分类
+        categoryName: "", // 分类名称
+        keyword: "", // 搜索内容(搜索关键字)
+        order: "", //  排序---升降序
+        pageNo: 1, // 分页的页码
+        pageSize: 10, // 每页的 数量
+        props: [], // 商品的属性
+        trademark: "", // 品牌
+      },
+    };
+  },
   // 计算属性
-  computed:{
-    ...mapGetters(['goodsList'])
+  computed: {
+    ...mapGetters(["goodsList"]),
   },
-  methods:{
-    ...mapActions(["getProductList"])
+  // 监视
+  watch: {
+    /*
+       
+    */
+    // 监视路由路径(地址变化)
+    $route() {
+      this.updataProductList();
+    },
   },
-  mounted(){
-    this.getProductList()
+  methods: {
+    ...mapActions(["getProductList"]),
+    /*
+      发送请求会携带参数，不能确定到底携带什么参数，所以需要获取 query,params 参数
+    */
+    // 定义一个更新发送请求的方法，方便调用
+    updataProductList() {
+      // 获取params参数 解构
+      const { searchText: keyword } = this.$route.params;
+      // 获取query参数 解构
+      const {
+        category1Id,
+        category2Id,
+        category3Id,
+        categoryName,
+      } = this.$route.query;
+      //
+      const options = {
+        ...this.options, // 携带所有初始化数据
+        keyword,
+        category1Id,
+        category2Id,
+        category3Id,
+        categoryName,
+      };
+      // 调用发送请求
+      this.getProductList(options);
+    },
+  },
+  mounted() {
+    /*
+      mounted中发送请求只会更新渲染一次，地址栏更新了，界面没有渲染
+              所以需要去监视路由路径(watch监视地址栏路径变化)
+    */
+    this.updataProductList();
   },
   components: {
     SearchSelector,

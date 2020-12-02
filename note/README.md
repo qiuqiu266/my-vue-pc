@@ -1,5 +1,9 @@
 ##### 路由跳转
 
+- 组件中路由两个相关对象(面试问题)
+- \$router:路由器对象，包含一些路由跳转的方法--> push(),replace(),back()
+- \$route:当前路由路由相关信息对象，包含当前路由相关信息数据对象---> path/name/query/params/meat
+
 1. 方式一：
    `<router-link :to="/xxx"></router-link>`
 
@@ -57,4 +61,4 @@
 
 - 拆分组件
 
-1. api--封装接口--->store--定义获取数据方式(vuex) 定义一个初始化状态数据--actions中定义一个发送请求的函数，第一个参数{commit}(用来触发mutations)，第二个参数 data={} 将来需要传入的参数数据都在data对象中-->定义mutations() 第一个参数所有数据state,第二个参数 需要获取的数据--->组件中引入 映射到组件 获取到数据渲染
+1. api--封装接口--->store--定义获取数据方式(vuex) 定义一个初始化状态数据--actions 中定义一个发送请求的函数，第一个参数{commit}(用来触发 mutations)，第二个参数 data={} 将来需要传入的参数数据都在 data 对象中-->定义 mutations() 第一个参数所有数据 state,第二个参数 需要获取的数据--->组件中引入 映射到组件 获取到数据渲染
