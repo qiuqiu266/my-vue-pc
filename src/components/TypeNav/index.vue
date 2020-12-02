@@ -190,7 +190,16 @@ export default {
           searchText,
         };
       }
-      this.$router.push(location);
+      // this.$router.replace(location);
+      
+      // 判断当前地址栏路由路径是否是在search，
+      // 如果是 就使用replace方式进行路由跳转(不会保存上一次跳转的记录)
+      // 如果不是就使用push方式进行路由跳转
+      if (this.$route.name === "search") {
+        this.$router.replace(location);
+      } else {
+        this.$router.push(location);
+      }
     },
   },
   mounted() {

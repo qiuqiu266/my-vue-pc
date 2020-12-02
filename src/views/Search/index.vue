@@ -174,7 +174,7 @@ export default {
     /*
       发送请求会携带参数，不能确定到底携带什么参数，所以需要获取 query,params 参数
     */
-    // 定义一个更新发送请求的方法，方便调用
+    // 定义一个更新数据的方法，方便调用
     updataProductList() {
       // 获取params参数 解构
       const { searchText: keyword } = this.$route.params;
@@ -208,7 +208,7 @@ export default {
       // this.$route上面的属性 是只读属性，不能修改
       // this.$route.params = {};
       // 重新更新路径信息
-      this.$router.push({
+      this.$router.replace({
         name: "search",
         query: this.$route.query,
       });
@@ -219,7 +219,7 @@ export default {
       this.options.category1Id = "";
       this.options.category2Id = "";
       this.options.category3Id = "";
-      this.$router.push({
+      this.$router.replace({
         name: "search",
         params: this.$route.params,
       });

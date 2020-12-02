@@ -133,24 +133,46 @@ export default {
           searchText,
         };
       }
+      // 添加query参数
+      const { categoryName } = this.$route.query;
+      if (categoryName) {
+        location.query = this.$route.query;
+      }
+      // 判断地址栏路由路径是否是在search
+      // 判断是否有包含search 的下标 > -1 代表包含了
+      // if(this.$route.path.indexOf("/search") > -1) {}
+      // includes  包含了/search 为true 不包含 为false
+      // if(this.$route.path.includes('/search')){}
+      // startsWith  包含了以/search \开头就为true 不包含就为false
+      // if(this.$route.path.startsWith('/search')){}
+      // 使用正则表达式
+      // if(/^\search/.test(this.$route.path)){}
+      // 判断当前地址栏路由路径是否是在search，
+      // 如果是 就使用replace方式进行路由跳转(不会保存上一次跳转的记录)
+      // 如果不是就使用push方式进行路由跳转
+      if (this.$route.name === "search") {
+        this.$router.replace(location);
+      } else {
+        this.$router.push(location);
+      }
       // 编程式导航，将来要做搜索功能，要发送请求
-      this.$router.push(
-        location
-        // 1.回调的方式处理 重复点击search跳转报错
-        /*(res) => {
+      // this.$router.replace(
+      // location
+      // 1.回调的方式处理 重复点击search跳转报错
+      /*(res) => {
         console.log("成功",res);
       },
       (err) =>{
         console.log("失败",err);
       } */
 
-        // 3.此方式也可以解决报错 没有任何返回结果 但是如果将来还需要用到编程式导航
-        // 也需要这样才能解决，所以需要有一个可以复用的方法来解决此问题(重写push方案-->router中)
-        /*() => {
+      // 3.此方式也可以解决报错 没有任何返回结果 但是如果将来还需要用到编程式导航
+      // 也需要这样才能解决，所以需要有一个可以复用的方法来解决此问题(重写push方案-->router中)
+      /*() => {
         // console.log("成功",res);
       },
       () =>{}*/
-      );
+      // );
       // 让输入框内容为空
       this.searchText = "";
 
