@@ -50,7 +50,16 @@
                   :class="{ active: options.order.indexOf('1') > -1 }"
                   @click="setOrder('1')"
                 >
-                  <a>综合 <i class="iconfont icon-arrow-down"></i> </a>
+                  <a
+                    >综合
+                    <i
+                      :class="{
+                        iconfont: true,
+                        'icon-arrow-up': !isDown,
+                        'icon-arrow-down': isDown,
+                      }"
+                    ></i>
+                  </a>
                 </li>
                 <li>
                   <a>销量</a>
@@ -68,8 +77,22 @@
                   <a
                     >价格
                     <span>
-                      <i class="iconfont icon-caret-up"></i>
-                      <i class="iconfont icon-caret-down"></i>
+                      <i
+                        :class="{
+                          iconfont: true,
+                          'icon-caret-up': true,
+                          deactive:
+                            options.order.indexOf('2') > -1 && isPriceDown,
+                        }"
+                      ></i>
+                      <i
+                        :class="{
+                          iconfont: true,
+                          'icon-caret-down': true,
+                          deactive:
+                            options.order.indexOf('2') > -1 && !isPriceDown,
+                        }"
+                      ></i>
                     </span>
                   </a>
                 </li>
@@ -174,6 +197,8 @@ export default {
         props: [], // 商品的属性
         trademark: "", // 品牌
       },
+      isDown: true, // 综合排序图标(降序)
+      isPriceDown: false, // 价格排序图标(升序)
     };
   },
   // 计算属性
@@ -272,7 +297,34 @@ export default {
     // 点击切换高亮
     setOrder(order) {
       // 解构
-      let [, orderType] = this.options.order.split(":");
+      let [orderNum, orderType] = this.options.order.split(":");
+      // 判断不相等 点击的就是第一次 不切换字体图标
+      // 相等点击的就是第二次 切换字体图标
+      if (orderNum === order) {
+        // 再判断 是要改变综合爱上价格的图标
+        //  order 是1 改变综合排序
+        // order 是2 改变价格排序
+        if (order === "1") {
+          this.isDown = !this.isDown;
+        } else {
+          this.isPriceDown = !this.isPriceDown;
+        }
+        orderType = orderType == "desc" ? "asc" : "desc";
+      } else {
+        // 判断点击一次，如果点击的是综合，就初始化为降desc
+        if (order === "1") {
+          // 让价格排序为默认(升序高亮)
+          // this.isPriceDown = false;
+          // 点击第一次是价格 orderType就初始化为asc 升序
+          // orderType = "asc";
+          orderType = this.isDown ? "desc" : "asc";
+        } else {
+          // 否则 点击第一次的就是价格，orderType就初始化为asc 升序
+          // orderType = "desc";
+          this.isPriceDown = false;
+          orderType = "asc";
+        }
+      }
       this.options.order = `${order}:${orderType}`;
     },
   },
