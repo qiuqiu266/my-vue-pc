@@ -13,21 +13,33 @@
           <ul class="fl sui-tag">
             <!-- <li class="with-x">手机</li> -->
             <li class="with-x" v-show="options.keyword" @click="delKeyword">
-              {{ options.keyword }}<i>×</i>
+              关键字:{{ options.keyword }}<i>×</i>
             </li>
             <li
               class="with-x"
               v-show="options.categoryName"
-              @click="delcategory"
+              @click="delCategory"
             >
-              {{ options.categoryName }}<i>×</i>
+              分类名称:{{ options.categoryName }}<i>×</i>
             </li>
-            <!-- <li class="with-x">OPPO<i>×</i></li> -->
+            <!-- 3913:惠夫人--需要显示的是不携带id 所以需要使用split()方法 -->
+            <li class="with-x" v-show="options.trademark" @click="delTrademark">
+              品牌:{{ options.trademark.split(":")[1] }}<i>×</i>
+            </li>
+            <!-- 品牌属性 -->
+            <li
+              class="with-x"
+              v-for="(prop,index) in options.props"
+              :key="prop"
+              @click="delProp(index)"
+            >
+              {{ prop.split(":")[2] }}:{{ prop.split(":")[1] }}<i>×</i>
+            </li>
           </ul>
         </div>
 
         <!--selector-->
-        <SearchSelector />
+        <SearchSelector :addTrademark="addTrademark" @add-prop="addProp" />
 
         <!--details-->
         <div class="details clearfix">
@@ -198,6 +210,7 @@ export default {
       // 调用发送请求
       this.getProductList(options);
     },
+
     // 删除关键字
     delKeyword() {
       // 清空options.keyword
@@ -214,7 +227,7 @@ export default {
       });
     },
     // 删除分类
-    delcategory() {
+    delCategory() {
       this.options.categoryName = "";
       this.options.category1Id = "";
       this.options.category2Id = "";
@@ -223,6 +236,29 @@ export default {
         name: "search",
         params: this.$route.params,
       });
+    },
+    // 添加品牌并更新数据方法
+    addTrademark(trademark) {
+      // 传入需要添加的属性数据
+      this.options.trademark = trademark;
+      // 调用方法 更新数据
+      this.updataProductList();
+    },
+    // 删除品牌
+    delTrademark() {
+      this.options.trademark = "";
+      // 调用更新数据
+      this.updataProductList();
+    },
+    // 添加品牌属性
+    addProp(prop) {
+      this.options.props.push(prop);
+      this.updataProductList();
+    },
+    // 删除品牌属性
+    delProp(index) {
+      this.options.props.splice(index, 1);
+      this.updataProductList();
     },
   },
   mounted() {
