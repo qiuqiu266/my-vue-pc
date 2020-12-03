@@ -1,5 +1,6 @@
 // 引入Vuex
 import { reqGetProductList } from "@api/search";
+// import { toExponential } from "core-js/fn/number/epsilon";
 export default {
   state: {
     productList: {
@@ -10,14 +11,17 @@ export default {
   },
   getters: {
     trademarkList(state) {
-      return state.productList.trademarkList
+      return state.productList.trademarkList;
     },
-    attrsList(state){
-      return state.productList.attrsList
+    attrsList(state) {
+      return state.productList.attrsList;
     },
-    goodsList(state){
-      return state.productList.goodsList
-    }
+    goodsList(state) {
+      return state.productList.goodsList;
+    },
+    total(state) {
+      return state.productList.total;
+    },
   },
   actions: {
     async getProductList({ commit }, data = {}) {

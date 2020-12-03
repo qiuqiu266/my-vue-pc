@@ -99,6 +99,7 @@
               </ul>
             </div>
           </div>
+          <!-- 商品列表 -->
           <div class="goods-list">
             <ul class="yui3-g">
               <li class="yui3-u-1-5" v-for="goods in goodsList" :key="goods.id">
@@ -141,35 +142,24 @@
             </ul>
           </div>
           <!-- 分页器 -->
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="options.pageNo"
+            :pager-count="7"
+            :page-sizes="[5, 10, 15, 20]"
+            :page-size="5"
+            background
+            layout="
+              prev,
+              pager, 
+              next, 
+              total, 
+              sizes, 
+              jumper"
+            :total="total"
+          >
+          </el-pagination>
         </div>
       </div>
     </div>
@@ -193,7 +183,7 @@ export default {
         keyword: "", // 搜索内容(搜索关键字)
         order: "1:desc", //  排序---升降序
         pageNo: 1, // 分页的页码
-        pageSize: 10, // 每页的 数量
+        pageSize: 5, // 每页的 数量
         props: [], // 商品的属性
         trademark: "", // 品牌
       },
@@ -203,7 +193,7 @@ export default {
   },
   // 计算属性
   computed: {
-    ...mapGetters(["goodsList"]),
+    ...mapGetters(["goodsList", "total"]),
   },
   // 监视
   watch: {
@@ -221,7 +211,7 @@ export default {
       发送请求会携带参数，不能确定到底携带什么参数，所以需要获取 query,params 参数
     */
     // 定义一个更新数据的方法，方便调用
-    updataProductList() {
+    updataProductList(pageNo = 1) {
       // 获取params参数 解构
       const { searchText: keyword } = this.$route.params;
       // 获取query参数 解构
@@ -239,6 +229,7 @@ export default {
         category2Id,
         category3Id,
         categoryName,
+        pageNo,
       };
       this.options = options;
       // 调用发送请求
@@ -326,6 +317,16 @@ export default {
         }
       }
       this.options.order = `${order}:${orderType}`;
+      this.updataProductList();
+    },
+    // 当每页条数发送变化
+    handleSizeChange(pageSize) {
+      this.options.pageSize = pageSize;
+      this.updataProductList();
+    },
+    // 当每页码发送变化
+    handleCurrentChange(pageNo) {
+      this.updataProductList(pageNo);
     },
   },
   mounted() {
