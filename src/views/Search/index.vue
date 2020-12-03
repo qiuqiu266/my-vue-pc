@@ -29,7 +29,7 @@
             <!-- 品牌属性 -->
             <li
               class="with-x"
-              v-for="(prop,index) in options.props"
+              v-for="(prop, index) in options.props"
               :key="prop"
               @click="delProp(index)"
             >
@@ -46,23 +46,32 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li
+                  :class="{ active: options.order.indexOf('1') > -1 }"
+                  @click="setOrder('1')"
+                >
+                  <a>综合 <i class="iconfont icon-arrow-down"></i> </a>
                 </li>
                 <li>
-                  <a href="#">销量</a>
+                  <a>销量</a>
                 </li>
                 <li>
-                  <a href="#">新品</a>
+                  <a>新品</a>
                 </li>
                 <li>
-                  <a href="#">评价</a>
+                  <a>评价</a>
                 </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                <li
+                  :class="{ active: options.order.indexOf('2') > -1 }"
+                  @click="setOrder('2')"
+                >
+                  <a
+                    >价格
+                    <span>
+                      <i class="iconfont icon-caret-up"></i>
+                      <i class="iconfont icon-caret-down"></i>
+                    </span>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -159,7 +168,7 @@ export default {
         category3Id: "", // 三级分类
         categoryName: "", // 分类名称
         keyword: "", // 搜索内容(搜索关键字)
-        order: "", //  排序---升降序
+        order: "1:desc", //  排序---升降序
         pageNo: 1, // 分页的页码
         pageSize: 10, // 每页的 数量
         props: [], // 商品的属性
@@ -259,6 +268,12 @@ export default {
     delProp(index) {
       this.options.props.splice(index, 1);
       this.updataProductList();
+    },
+    // 点击切换高亮
+    setOrder(order) {
+      // 解构
+      let [, orderType] = this.options.order.split(":");
+      this.options.order = `${order}:${orderType}`;
     },
   },
   mounted() {
@@ -377,11 +392,31 @@ export default {
               line-height: 18px;
 
               a {
-                display: block;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
                 cursor: pointer;
                 padding: 11px 15px;
                 color: #777;
                 text-decoration: none;
+                // font-size: 14px;
+                // line-height: 8px;
+                i {
+                  padding-left: 5px;
+                }
+                span {
+                  display: flex;
+                  flex-direction: column;
+                  line-height: 8px;
+                  // height: 30px;
+                  i {
+                    font-size: 18px;
+                    // transform: scale(0.5);
+                    &.deactive {
+                      color: rgba(255, 255, 255, 0.5);
+                    }
+                  }
+                }
               }
 
               &.active {

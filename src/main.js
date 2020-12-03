@@ -12,6 +12,8 @@ import "./style/reset.css";
 // 一旦加载就会启动mock服务器，就会拦截相应的请求
 import "./mock/mockServer";
 import "./plugins/element.js";
+// 引入字体图标样式
+import "./style/iconfont.css";
 Vue.config.productionTip = false;
 
 // console.log(router);// __proto__有个push (实例上)
