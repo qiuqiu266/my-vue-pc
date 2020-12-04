@@ -46,10 +46,8 @@
           <div class="sui-navbar">
             <div class="navbar-inner filter">
               <ul class="sui-nav">
-                <li
-                  :class="{ active: options.order.indexOf('1') > -1 }"
-                  @click="setOrder('1')"
-                >
+                <!-- :class="{ active: options.order.indexOf('1') > -1 }" -->
+                <li :class="{ isOrder: '1' > -1 }" @click="setOrder('1')">
                   <a
                     >综合
                     <i
@@ -70,27 +68,39 @@
                 <li>
                   <a>评价</a>
                 </li>
-                <li
-                  :class="{ active: options.order.indexOf('2') > -1 }"
-                  @click="setOrder('2')"
-                >
+                <!-- :class="{ deactive:options.order.indexOf('2') > -1 }" -->
+                <li :class="{ isOrder: '2' > -1 }" @click="setOrder('2')">
                   <a
                     >价格
                     <span>
-                      <i
+                      <!-- <i
                         :class="{
                           iconfont: true,
                           'icon-caret-up': true,
                           deactive:
                             options.order.indexOf('2') > -1 && isPriceDown,
                         }"
-                      ></i>
+                      ></i> -->
                       <i
+                        :class="{
+                          iconfont: true,
+                          'icon-caret-up': true,
+                          deactive: isOrder('2') > -1 && isPriceDown,
+                        }"
+                      ></i>
+                      <!-- <i
                         :class="{
                           iconfont: true,
                           'icon-caret-down': true,
                           deactive:
                             options.order.indexOf('2') > -1 && !isPriceDown,
+                        }"
+                      ></i> -->
+                      <i
+                        :class="{
+                          iconfont: true,
+                          'icon-caret-down': true,
+                          deactive: isOrder('2') > -1 && !isPriceDown,
                         }"
                       ></i>
                     </span>
@@ -142,7 +152,31 @@
             </ul>
           </div>
           <!-- 分页器 -->
-          <el-pagination
+          <Pagination
+            :current-page="options.pageNo"
+            :pager-count="7"
+            :page-size="5"
+            :total="total"
+          />
+          <!-- <el-pagination
+            @size-change="handleSizeChange" // 每页条数发生变化
+            @current-change="handleCurrentChange" //选择每页页码的函数
+            :current-page="options.pageNo"
+            :pager-count="7"
+            :page-sizes="[5, 10, 15, 20]" 选择每页几条 的选项
+            :page-size="5" 默认每页显示5条
+            background
+            layout="
+              prev,
+              pager, 
+              next, 
+              total, 
+              sizes, 
+              jumper"
+            :total="total" 总条数
+          >
+          </el-pagination> -->
+          <!-- <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="options.pageNo"
@@ -159,7 +193,7 @@
               jumper"
             :total="total"
           >
-          </el-pagination>
+          </el-pagination> -->
         </div>
       </div>
     </div>
@@ -170,6 +204,7 @@
 import TypeNav from "@comps/TypeNav";
 import SearchSelector from "./SearchSelector/SearchSelector";
 import { mapGetters, mapActions } from "vuex";
+import Pagination from "@comps/Pagination";
 
 export default {
   name: "Search",
@@ -264,6 +299,8 @@ export default {
     },
     // 添加品牌并更新数据方法
     addTrademark(trademark) {
+      // 判断是否已经有某个品牌
+      if (this.options.trademark) return;
       // 传入需要添加的属性数据
       this.options.trademark = trademark;
       // 调用方法 更新数据
@@ -277,6 +314,8 @@ export default {
     },
     // 添加品牌属性
     addProp(prop) {
+      // 先判断是否已经存在某个品牌属性
+      if (this.options.props.indexOf(prop) > -1) return;
       this.options.props.push(prop);
       this.updataProductList();
     },
@@ -285,7 +324,7 @@ export default {
       this.options.props.splice(index, 1);
       this.updataProductList();
     },
-    // 点击切换高亮
+    // 排序点击切换高亮
     setOrder(order) {
       // 解构
       let [orderNum, orderType] = this.options.order.split(":");
@@ -328,6 +367,10 @@ export default {
     handleCurrentChange(pageNo) {
       this.updataProductList(pageNo);
     },
+    // 判断排序以是否以 order 开头
+    isOrder(order) {
+      return this.options.order.indexOf(order) > -1;
+    },
   },
   mounted() {
     /*
@@ -339,6 +382,7 @@ export default {
   components: {
     SearchSelector,
     TypeNav,
+    Pagination,
   },
 };
 </script>
