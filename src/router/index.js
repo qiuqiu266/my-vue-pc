@@ -6,6 +6,7 @@ import Home from "@views/Home";
 import Search from "@views/Search";
 import Login from "@views/Login";
 import Register from "@views/Register";
+import Detail from "@views/Detail";
 
 // 重写push和replace方案：为了编程式导航重复点击路径时不报错
 /*VueRouter.prototype.push = function(location) {
@@ -64,5 +65,17 @@ export default new VueRouter({
         isFooterHide: true,
       },
     },
+    {
+      name: "detail",
+      path: "/detail/:id",
+      component: Detail,
+    },
   ],
+  // 每次路由跳转页面滚动条位置在最顶部
+  scrollBehavior() {
+    return {
+      x: 0,
+      y: 0,
+    };
+  },
 });
