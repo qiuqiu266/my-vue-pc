@@ -17,9 +17,22 @@
         <!-- 左侧放大镜区域 -->
         <div class="previewWrap">
           <!--放大镜效果-->
+          <!-- <Zoom
+            :imgUrl="
+              skuInfo.skuImageList[currentImgIndex] &&
+              skuInfo.skuImageList[currentImgIndex].imgUrl
+            "
+            :bigImgUrl="
+              skuInfo.skuImageList[currentImgIndex] &&
+              skuInfo.skuImageList[currentImgIndex].imgUrl
+            "
+          /> -->
           <Zoom />
           <!-- 小图列表 -->
-          <ImageList />
+          <ImageList
+            :skuImageList="skuInfo.skuImageList"
+            :updataCurrentImgIndex="updataCurrentImgIndex"
+          />
         </div>
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
@@ -81,9 +94,10 @@
                 <dd
                   changepirce="0"
                   class="active"
-                  v-for="spuSaleAttrValue in spuSaleAttr.spuSaleAttrValueList" :key="spuSaleAttrValue.id"
+                  v-for="spuSaleAttrValue in spuSaleAttr.spuSaleAttrValueList"
+                  :key="spuSaleAttrValue.id"
                 >
-                  {{spuSaleAttrValue.saleAttrValueName}}
+                  {{ spuSaleAttrValue.saleAttrValueName }}
                 </dd>
                 <!-- <dd changepirce="40">银色</dd>
                 <dd changepirce="90">黑色</dd> -->
@@ -342,6 +356,11 @@ import Zoom from "./Zoom/Zoom";
 
 export default {
   name: "Detail",
+  data() {
+    return {
+      currentImgIndex: 0, // 当前选中图片的下标
+    };
+  },
   // 计算属性
   computed: {
     ...mapGetters(["categoryView", "spuSaleAttrList", "skuInfo"]),
@@ -349,6 +368,10 @@ export default {
   // 方法
   methods: {
     ...mapActions(["getProductDetail"]),
+    // 更新图片下标的方法
+    updataCurrentImgIndex(index) {
+      this.currentImgIndex = index;
+    },
   },
   // 生命周期
   mounted() {
