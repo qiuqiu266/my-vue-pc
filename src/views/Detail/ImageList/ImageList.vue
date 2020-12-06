@@ -16,10 +16,10 @@
       </div> -->
       <div
         class="swiper-slide"
-        v-for="(skuimg, index) in skuImageList"
-        :key="skuimg.id"
+        v-for="(skuImage, index) in skuImageList"
+        :key="skuImage.id"
       >
-        <img :src="skuimg.imgUrl" @click="updataCurrentImgIndex(index)" />
+        <img :src="skuImage.imgUrl" @click="updataCurrentImgIndex(index)" />
       </div>
     </div>
     <div class="swiper-button-next"></div>

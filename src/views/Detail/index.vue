@@ -17,7 +17,7 @@
         <!-- 左侧放大镜区域 -->
         <div class="previewWrap">
           <!--放大镜效果-->
-          <!-- <Zoom
+          <Zoom
             :imgUrl="
               skuInfo.skuImageList[currentImgIndex] &&
               skuInfo.skuImageList[currentImgIndex].imgUrl
@@ -26,12 +26,15 @@
               skuInfo.skuImageList[currentImgIndex] &&
               skuInfo.skuImageList[currentImgIndex].imgUrl
             "
+          />
+          <!-- <Zoom
+            :imgUrl="skuInfo.skuImageList?.[currentImgIndex]?.imgUrl"
+            :bigImgUrl="skuInfo.skuImageList?.[currentImgIndex]?.imgUrl"
           /> -->
-          <Zoom />
           <!-- 小图列表 -->
           <ImageList
             :skuImageList="skuInfo.skuImageList"
-            :updataCurrentImgIndex="updataCurrentImgIndex"
+            :updateCurrentImgIndex="updateCurrentImgIndex"
           />
         </div>
         <!-- 右侧选择区域布局 -->
@@ -105,11 +108,15 @@
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt" />
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <el-input-number
+                  class="input-number"
+                  v-model="skuNum"
+                  controls-position="right"
+                  :min="1"
+                  :max="100"
+                ></el-input-number>
               </div>
-              <div class="add">
+              <div class="add" @click="addCart">
                 <a href="javascript:">加入购物车</a>
               </div>
             </div>
@@ -359,6 +366,7 @@ export default {
   data() {
     return {
       currentImgIndex: 0, // 当前选中图片的下标
+      skuNum: 1, // 初始化数量
     };
   },
   // 计算属性
@@ -367,10 +375,29 @@ export default {
   },
   // 方法
   methods: {
-    ...mapActions(["getProductDetail"]),
+    ...mapActions(["getProductDetail", "updateCartCount"]),
     // 更新图片下标的方法
-    updataCurrentImgIndex(index) {
+    updateCurrentImgIndex(index) {
       this.currentImgIndex = index;
+    },
+    // 加入购物车
+    async addCart() {
+      try {
+        // 发送请求，加入购物车
+        // actions 函数必须 返回一个promise 对象，才会等待它执行
+        await this.updateCartCount({
+          // 携带id , 商品数量
+          skuId: this.skuInfo.id,
+          skuNum: this.skuNum,
+        });
+        // 一旦加入购物车，就要跳转到加入购物车成功的页面
+        this.$router.push(`/addcartsuccess?skuNum=${this.skuNum}`);
+        // 发送请求是异步代码，而跳转页面是同步，（不会等待异步代码执行
+        // 但是我们需要  等待数据加载渲染后才跳转，所有需要使用 async await
+        // 使用try catch捕获失败的内容
+      } catch (e) {
+        console.log(e);
+      }
     },
   },
   // 生命周期
@@ -553,6 +580,9 @@ export default {
               position: relative;
               float: left;
               margin-right: 15px;
+              .input-number {
+                width: 100px;
+              }
 
               .itxt {
                 width: 38px;
@@ -590,6 +620,7 @@ export default {
 
             .add {
               float: left;
+              margin-left: 60px;
 
               a {
                 background-color: #e1251b;

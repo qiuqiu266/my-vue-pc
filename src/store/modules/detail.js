@@ -4,7 +4,9 @@ export default {
     productDetail: {
       categoryView: {}, // 分类数据
       spuSaleAttrList: [], // 商品选择属性数据
-      skuInfo: {}, // 商品详情
+      skuInfo: {
+        skuImageList: [],
+      }, // 商品详情
     },
   },
   getters: {
@@ -19,7 +21,7 @@ export default {
     },
   },
   actions: {
-    async getProductDetail({ commit },id) {
+    async getProductDetail({ commit }, id) {
       const productDetail = await reqGetProductDetail(id);
       commit("GET_PRODUCT_DETAIL", productDetail);
     },

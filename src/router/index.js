@@ -7,6 +7,8 @@ import Search from "@views/Search";
 import Login from "@views/Login";
 import Register from "@views/Register";
 import Detail from "@views/Detail";
+import ShopCart from "@views/ShopCart";
+import AddCartSuccess from "@views/AddCartSuccess";
 
 // 重写push和replace方案：为了编程式导航重复点击路径时不报错
 /*VueRouter.prototype.push = function(location) {
@@ -69,6 +71,16 @@ export default new VueRouter({
       name: "detail",
       path: "/detail/:id",
       component: Detail,
+    },
+    {
+      name: "shopcart",
+      path: "/shopcart",
+      component: ShopCart,
+    },
+    {
+      name: "addcartsuccess",
+      path: "/addcartsuccess",
+      component: AddCartSuccess,
     },
   ],
   // 每次路由跳转页面滚动条位置在最顶部

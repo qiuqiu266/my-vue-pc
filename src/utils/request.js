@@ -2,11 +2,16 @@
 // 引入axios
 import axios from "axios";
 // 按需引入el{ement-ui
-import {Message} from 'element-ui'
+import { Message } from "element-ui";
+import getUserTempId from "@utils/getUserTempId";
 // 引入进度条插件
 import NProgress from "nprogress";
 // 引入进度条样式
 import "nprogress/nprogress.css";
+
+// const userTempId = getUserTempId();
+// import { v4 as uuidv4 } from "uuid";
+// uuidv4();
 const instance = axios.create({
   baseURL: "/api",
   //请求参数 不能放在headers 中 ，
@@ -24,6 +29,8 @@ instance.interceptors.request.use(
     // 进度条开始
     NProgress.start();
     // 修改config ，用来添加公共的请求参数
+    const userTempId = getUserTempId();
+    config.headers.userTempId = userTempId;
     return config;
   }
   // 初始化promise.resolve()返回默认成功的Promise，只会触发成功的回调，所以不需要第二个参数
@@ -71,13 +78,11 @@ instance.interceptors.response.use(
     }
     // code不是200，功能失败-->触发，返回失败的Promise
     // 解构出来
-    const {message} = response.data
+    const { message } = response.data;
     // 提示信息
-    Message.error(message)
+    Message.error(message);
     return Promise.reject(response.data.message);
     // return Promise.reject(response.data.message);
-    
-
   },
   // 响应失败,当响应状态码不是2xx,
   (error) => {
@@ -85,7 +90,7 @@ instance.interceptors.response.use(
     NProgress.done();
     const message = error.message || "网络错误";
     // 提示信息
-    Message.error(message)
+    Message.error(message);
     return Promise.reject(message);
   }
 );
