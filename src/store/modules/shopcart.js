@@ -11,6 +11,7 @@ export default {
   },
   getters: {},
   actions: {
+    // 更新所有购物车商品数据
     async getCartList({ commit }) {
       const cartList = await reqGetCartList();
       // 触发Mutations
@@ -24,8 +25,8 @@ export default {
       await reqUpdateCartCount(skuId, skuNum);
       // 触发Mutations
 
-      // commit("UPDATE_CART_COUNT", { skuId, skuNum });
-      console.log(commit);
+      commit("UPDATE_CART_COUNT", { skuId, skuNum });
+      // console.log(commit);
     },
 
     // 选中商品
@@ -42,15 +43,15 @@ export default {
     GET_CART_LIST(state, cartList) {
       state.cartList = cartList;
     },
-    // UPDATE_CART_COUNT(state, { skuId, skuNum }) {
-    //   // 遍历所有数据 
-    //   state.cartList = state.cartList.map((cart) => {
-    //     // 判断 id是否是当前点击添加或减少的 那个id
-    //     if (cart.skuId === skuId) {
-    //       cart.skuNum += skuNum;
-    //     }
-    //     return cart;
-    //   });
-    // },
+    UPDATE_CART_COUNT(state, { skuId, skuNum }) {
+      // 遍历所有数据
+      state.cartList = state.cartList.map((cart) => {
+        // 判断 id是否是当前点击添加或减少的 那个id 
+        if (cart.skuId === skuId) {
+          cart.skuNum += skuNum;
+        }
+        return cart;
+      });
+    },
   },
 };

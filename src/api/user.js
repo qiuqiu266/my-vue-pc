@@ -3,7 +3,7 @@ import request from "@utils/request";
 
 // 封装一个发送请求的函数(接口)
 // 定义一个方法 并且暴露出去
-// 登录的接口    
+// 登录的接口
 //      参数 登录需要的信息 手机号 密码
 export const reqLogin = (phone, password) => {
   // 将request的返回值返回出去
@@ -11,12 +11,24 @@ export const reqLogin = (phone, password) => {
   return request({
     method: "POST",
     url: "/user/passport/login",
-    data: { // 放置请求体参数，通常post请求
+    data: {
+      // 放置请求体参数，通常post请求
       phone,
       password,
     },
-    params:{ //放置查询字符串参数，通常get请求
-    }
+    // params:{ //放置查询字符串参数，通常get请求
+    // }
   });
 };
-
+// 注册的接口
+export const reqRegister = ({ phone, password, code }) => {
+  return request({
+    method: "POST",
+    url: "/user/passport/register",
+    data: {
+      phone,
+      password,
+      code,
+    },
+  });
+};
