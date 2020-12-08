@@ -54,7 +54,7 @@
         <!-- <span class="error-msg">错误提示信息</span> -->
       </div>
       <div class="btn">
-        <button @click="submit">完成注册</button>
+        <button @click="registers">完成注册</button>
       </div>
     </div>
 
@@ -145,26 +145,42 @@ export default {
   // 方法
   methods: {
     // 注册
-    submit() {
-      // 收集表单数据
-      const { phone, password, rePassword, isAgree, code } = this.user;
-      // 判断是否勾选协议
-      if (!isAgree) {
-        console.log(this);
-        this.$message("请您同意用户协议方可注册~");
-        return;
+    async registers() {
+      try {
+        // 收集表单数据
+        // console.log(this);
+        const { phone, password, rePassword, code, isAgree } = this.user;
+        // console.log(this.$message);
+        // 判断是否勾选协议
+        if (!isAgree) {
+          // console.log(this);
+          // console.log(this.message);
+          this.$message.error("请您同意用户协议方可注册~");
+          return;
+        }
+        // 判断密码是否一致
+        if (password !== rePassword) {
+          this.$message.error("两次密码输入不一致");
+          return;
+        }
+        // 发送请求注册  注册成功后才会跳转到登录页面 所有需要加await
+        await this.$store.dispatch("register", { phone, password, code });
+        // console.log(phone, password, rePassword, isAgree, code);
+        // 注册成功跳转到登录页面
+        this.$router.push("/login");
+      } catch {
+        // 清空输入框手机号 密码
+        this.user.phone = "";
+        this.user.password = "";
+        this.user.rePassword = "";
+        // 重新刷新验证码
+        this.refresh();
       }
-      // 判断密码是否一致
-      if (password !== rePassword) {
-        this.$message("两次密码输入不一致");
-        return;
-      }
-      // 发送请求
-      // await this.$store.dispatch("register", { phone, password, code });
-      console.log(phone, password, rePassword, isAgree, code);
     },
-    refresh(e) {
-      e.target.src = "http://182.92.128.115/api/user/passport/code";
+    // 刷新验证码
+    refresh() {
+      // e.target.src = "http://182.92.128.115/api/user/passport/code";
+      this.$refs.code.src = "http://182.92.128.115/api/user/passport/code";
     },
   },
 };
