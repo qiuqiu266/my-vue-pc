@@ -3,18 +3,35 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "@store/index";
 
+
+// 路由组件懒加载
+// 
+const Home = () => import ("@views/Home");
+const AddCartSuccess = () => import ("@views/AddCartSuccess");
+const Search = () => import ("@views/Search");
+const Login = () => import ("@views/Login");
+const Register = () => import ("@views/Register");
+const Detail = () => import ("@views/Detail");
+const ShopCart = () => import ("@views/ShopCart");
+const Pay = () => import ("@views/Pay");
+const Center = () => import ("@views/Center");
+const PaySuccess = () => import ("@views/PaySuccess");
+const Trade = () => import ("@views/Trade");
+
 // 引入路由组件
-import Home from "@views/Home";
-import Search from "@views/Search";
-import Login from "@views/Login";
-import Register from "@views/Register";
-import Detail from "@views/Detail";
-import ShopCart from "@views/ShopCart";
-import AddCartSuccess from "@views/AddCartSuccess";
-import Pay from "@views/Pay";
-import Center from "@views/Center";
-import PaySuccess from "@views/PaySuccess";
-import Trade from "@views/Trade";
+// import Home from "@views/Home";
+// import Search from "@views/Search";
+// import Login from "@views/Login";
+// import Register from "@views/Register";
+// import Detail from "@views/Detail";
+// import ShopCart from "@views/ShopCart";
+// import AddCartSuccess from "@views/AddCartSuccess";
+// import Pay from "@views/Pay";
+// import Center from "@views/Center";
+// import PaySuccess from "@views/PaySuccess";
+// import Trade from "@views/Trade";
+
+// import { from } from "core-js/fn/array";
 // 重写push和replace方案：为了编程式导航重复点击路径时不报错
 /*VueRouter.prototype.push = function(location) {
   // 这样会造成location 重复被调用
@@ -45,10 +62,12 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
   routes: [
+    // 首页
     {
       path: "/",
       component: Home,
     },
+    // 搜索
     {
       // name:"" 命名路由
       name: "search",
@@ -56,6 +75,7 @@ const router = new VueRouter({
       path: "/search/:searchText?",
       component: Search,
     },
+    // 登录
     {
       path: "/login",
       component: Login,
@@ -65,6 +85,7 @@ const router = new VueRouter({
         isFooterHide: true,
       },
     },
+    // 注册
     {
       path: "/register",
       component: Register,
@@ -72,36 +93,53 @@ const router = new VueRouter({
         isFooterHide: true,
       },
     },
+    // 商品详情页/放大镜
     {
       name: "detail",
       path: "/detail/:id",
       component: Detail,
     },
+    // 购物车
     {
       name: "shopcart",
       path: "/shopcart",
       component: ShopCart,
     },
+    // 成功添加购物车
     {
       name: "addcartsuccess",
       path: "/addcartsuccess",
       component: AddCartSuccess,
+      // 路由独享守卫
+      // beforeEnter: (to, from, next) => {
+      //   // 判断 是否是从购物车过来的，并且是有加入购物车操作
+      //   if (from.name === "detail" && sessionStorage.getItem("cart")) {
+      //     // 放行
+      //     return next();
+      //   }
+      //   // 让其去购物车
+      //   next("/shopcart");
+      // },
     },
+    // 我的订单
     {
       name: "center",
       path: "/center",
       component: Center,
     },
+    // 订单提交成功
     {
       name: "pay",
       path: "/pay",
       component: Pay,
     },
+    // 支付成功
     {
       name: "paysuccess",
       path: "/paysuccess",
       component: PaySuccess,
     },
+    // 订单信息
     {
       name: "trade",
       path: "/trade",
