@@ -24,6 +24,7 @@
                     v-model="user.phone"
                   />
                 </div>
+                
                 <p :style="{ color: 'red' }">{{ errors[0] }}</p>
               </ValidationProvider>
               <div class="input-text clearFix">
@@ -79,9 +80,16 @@
 
 <script>
 import { mapState } from "vuex";
-import { ValidationProvider, extend } from "vee-validate";
+import { ValidationProvider ,extend} from "vee-validate";
 import { required } from "vee-validate/dist/rules";
+
 extend("required", required);
+
+// extend("required", {
+//   ...required,
+//   message: "手机号必须要填写", // 错误提示
+// });
+
 export default {
   name: "Login",
   // 注册

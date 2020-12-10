@@ -3,35 +3,35 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "@store/index";
 
-
 // 路由组件懒加载
-// 
-const Home = () => import ("@views/Home");
-const AddCartSuccess = () => import ("@views/AddCartSuccess");
-const Search = () => import ("@views/Search");
-const Login = () => import ("@views/Login");
-const Register = () => import ("@views/Register");
-const Detail = () => import ("@views/Detail");
-const ShopCart = () => import ("@views/ShopCart");
-const Pay = () => import ("@views/Pay");
-const Center = () => import ("@views/Center");
-const PaySuccess = () => import ("@views/PaySuccess");
-const Trade = () => import ("@views/Trade");
+// 1. 会将路由组件打包成单独的js文件(webpack代码分割)
+// (由于代分割了，所以注册的组件扩展的ValidationProvider校验规则 登录组件不能使用，需要自己再次定义 )
+// 2. 异步加载路由组件(需要使用时才加载) (vue异步加载组件功能)
+// const Home = () => import (/* webpackChunkName: "Home" */"@views/Home");
+// const AddCartSuccess = () => import (/* webpackChunkName: "AddCartSuccess" */"@views/AddCartSuccess");
+// const Search = () => import (/* webpackChunkName: "Search" */"@views/Search");
+// const Login = () => import (/* webpackChunkName: "Login" */"@views/Login");
+// const Register = () => import (/* webpackChunkName: "Register" */"@views/Register");
+// const Detail = () => import (/* webpackChunkName: "Detail" */"@views/Detail");
+// const ShopCart = () => import (/* webpackChunkName: "ShopCart" */"@views/ShopCart");
+// const Pay = () => import (/* webpackChunkName: "Pay" */"@views/Pay");
+// const Center = () => import (/* webpackChunkName: "Center" */"@views/Center");
+// const PaySuccess = () => import (/* webpackChunkName: "PaySuccess" */"@views/PaySuccess");
+// const Trade = () => import (/* webpackChunkName: "Trade" */"@views/Trade");
 
 // 引入路由组件
-// import Home from "@views/Home";
-// import Search from "@views/Search";
-// import Login from "@views/Login";
-// import Register from "@views/Register";
-// import Detail from "@views/Detail";
-// import ShopCart from "@views/ShopCart";
-// import AddCartSuccess from "@views/AddCartSuccess";
-// import Pay from "@views/Pay";
-// import Center from "@views/Center";
-// import PaySuccess from "@views/PaySuccess";
-// import Trade from "@views/Trade";
+import Home from "@views/Home";
+import Search from "@views/Search";
+import Login from "@views/Login";
+import Register from "@views/Register";
+import Detail from "@views/Detail";
+import ShopCart from "@views/ShopCart";
+import AddCartSuccess from "@views/AddCartSuccess";
+import Pay from "@views/Pay";
+import Center from "@views/Center";
+import PaySuccess from "@views/PaySuccess";
+import Trade from "@views/Trade";
 
-// import { from } from "core-js/fn/array";
 // 重写push和replace方案：为了编程式导航重复点击路径时不报错
 /*VueRouter.prototype.push = function(location) {
   // 这样会造成location 重复被调用

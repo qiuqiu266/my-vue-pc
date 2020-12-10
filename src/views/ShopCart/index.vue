@@ -80,7 +80,7 @@
           <i class="summoney">{{ totalPrice }}</i>
         </div>
         <div class="sumbtn">
-          <a class="sum-btn" href="###" target="_blank">结算</a>
+          <a class="sum-btn" @click="submit">结算</a>
         </div>
       </div>
     </div>
@@ -175,8 +175,12 @@ export default {
       // 更新商品数据  是先更新商品数据 再刷新页面，所有添加await
       await this.updateCartCount({ skuId, skuNum });
       // 刷新页面，重新获取所有数据
-      this.getCartList();
+      // this.getCartList();
     },
+    // 去结算
+    submit(){
+      this.$router.push('/trade');
+    }
   },
 
   // 生命周期

@@ -30,6 +30,11 @@ instance.interceptors.request.use(
     NProgress.start();
     // 修改config ，用来添加公共的请求参数
     const userTempId = getUserTempId();
+    // 设置token
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.token = token;
+    }
     config.headers.userTempId = userTempId;
     return config;
   }

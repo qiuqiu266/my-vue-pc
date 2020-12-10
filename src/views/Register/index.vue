@@ -12,7 +12,7 @@
         <label>手机号:</label>
         <ValidationProvider rules="required|length|phone" v-slot="{ errors }">
           <input
-            type="text"
+            type="text" 
             placeholder="请输入你的手机号"
             v-model="user.phone"
           />
@@ -79,6 +79,7 @@
 <script>
 import { ValidationProvider, extend } from "vee-validate";
 import { required } from "vee-validate/dist/rules";
+// console.log(111)
 // import { mapActions } from "vuex";
 /*
   1.下载
