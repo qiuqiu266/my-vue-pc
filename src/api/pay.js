@@ -10,7 +10,7 @@ export const reqGetTrade = () => {
 };
 // 提交订单
 export const reqSubmitOrder = ({
-  traderNo,
+  tradeNo,
   consignee,
   consigneeTel,
   deliveryAddress,
@@ -23,7 +23,7 @@ export const reqSubmitOrder = ({
     url: `/order/auth/submitOrder`,
     params: {
       // query参数
-      traderNo,
+      tradeNo,
     },
     data: {
       // body参数
@@ -37,8 +37,9 @@ export const reqSubmitOrder = ({
   });
 };
 // 获取订单信息列表
-// export const reqSubmitOrder = ({
-
-// }) => {
-
-// }
+export const reqGetQCode = (orderId) => {
+  return request({
+    method: "GET",
+    url: `/payment/weixin/createNative/${orderId}`,
+  });
+};

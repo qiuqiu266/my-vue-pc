@@ -390,6 +390,7 @@ export default {
           skuId: this.skuInfo.id,
           skuNum: this.skuNum,
         });
+        sessionStorage.setItem("cart", JSON.stringify(this.skuInfo));
         // 一旦加入购物车，就要跳转到加入购物车成功的页面
         this.$router.push(`/addcartsuccess?skuNum=${this.skuNum}`);
         // 发送请求是异步代码，而跳转页面是同步，（不会等待异步代码执行

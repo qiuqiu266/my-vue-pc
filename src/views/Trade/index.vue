@@ -92,7 +92,9 @@
       </ul>
     </div>
     <div class="trade">
-      <div class="price">应付金额:<span>¥5399.00</span></div>
+      <div class="price">
+        应付金额:<span>¥{{ trade.totalAmount }}</span>
+      </div>
       <div class="receiveInfo">
         寄送至:
         <span>{{ selectAddress.userAddress }}</span>
@@ -101,16 +103,14 @@
       </div>
     </div>
     <div class="sub clearFix">
-      <router-link class="subBtn" to="/pay" @click="submit"
-        >提交订单</router-link
-      >
+      <button class="subBtn" @click="submit">提交订单</button>
     </div>
   </div>
 </template>
 
 <script>
 // 引入 请求接口文件
-import { reqGetTrade,reqSubmitOrder } from "@api/pay";
+import { reqGetTrade, reqSubmitOrder } from "@api/pay";
 export default {
   name: "Trade",
   data() {
@@ -161,9 +161,10 @@ export default {
         orderComment: this.orserComment, // 订单备注
         orderDetailList: detailArrayList, // 存储多个商品对象的数组
       });
-      // 跳转路径
+      // console.log(orderId);
+      // 跳转路径    (需要 将html中<router-link> 改为 button)
       this.$router.push({
-        path: "/pay", 
+        path: "/pay",
         query: {
           orderId,
         },

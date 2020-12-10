@@ -129,6 +129,7 @@ const router = new VueRouter({
     },
     // 订单提交成功
     {
+    
       name: "pay",
       path: "/pay",
       component: Pay,
